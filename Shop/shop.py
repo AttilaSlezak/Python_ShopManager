@@ -1,6 +1,6 @@
+from Shop.milk import Milk
 # -- coding: utf-8 --
 __author__ = 'Slezak Attila'
-from Shop.milk import Milk
 
 
 class Shop(object):
@@ -34,8 +34,32 @@ class Shop(object):
         return len(self.milk_counter) > 0
 
     def replenish_milk_counter(self, milk):
-        if type(milk) != Milk: return False
-        self.milk_counter[milk.barcode] = milk
+        if type(milk) != Milk:
+            return False
+
+        shop_reg = self.milk_counter[milk.barcode]
+        if shop_reg is None:
+            shop_reg = Shop.ShopRegister(milk, 1, 100)
+            self.milk_counter[milk.barcode] = shop_reg
+        else:
+            shop_reg.add_quantity(1)
 
     def buy_milk(self, barcode):
-        return self.milk_counter.pop(barcode, None)
+        shop_reg = self.milk_counter[barcode]
+        if shop_reg is not None:
+            shop_reg.subtract_quantity(1)
+            return shop_reg.milk
+        return None
+
+    class ShopRegister(object):
+
+        def __init__(self, milk, quantity, price):
+            self.milk = milk
+            self.quantity = quantity
+            self.price = price
+
+        def add_quantity(self, quantity):
+            self.quantity += quantity
+
+        def subtract_quantity(self, quantity):
+            self.quantity -= quantity

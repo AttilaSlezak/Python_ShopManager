@@ -11,9 +11,9 @@ class Milk(object):
     WHOLE_MILK = 2.8
     LOW_FAT_MILK = 1.5
 
-    def __init__(self, barcode, cubic_capacity, producer, best_before, fat_content, price):
+    def __init__(self, barcode, cubic_capacity, producer, best_before, fat_content):
 
-        if not Milk.check_data_can_represent_real_milk(barcode, cubic_capacity, producer, best_before, fat_content, price):
+        if not Milk.check_data_can_represent_real_milk(barcode, cubic_capacity, producer, best_before, fat_content):
             raise ValueError("Given data cannot represent real Milk!")
 
         self.barcode = barcode
@@ -21,7 +21,6 @@ class Milk(object):
         self.producer = producer
         self.best_before = best_before
         self.fat_content = fat_content
-        self.price = price
 
     def __str__(self):
         return "Milk{" + \
@@ -29,11 +28,10 @@ class Milk(object):
                 ", cubic capacity: " + str(self.cubic_capacity) + " ml" + \
                 ", producer: '" + self.producer + "'" + \
                 ", best before: " + str(self.best_before) + \
-                ", fat content: " + str(self.fat_content) + \
-                ", price: " + str(self.price) + " forint(s)" + '}'
+                ", fat content: " + str(self.fat_content) + '}'
 
     @staticmethod
-    def check_data_can_represent_real_milk(barcode, cubic_capacity, producer, best_before, fat_content, price):
+    def check_data_can_represent_real_milk(barcode, cubic_capacity, producer, best_before, fat_content):
         if type(barcode) != int:
             print("'barcode' must be integer type!")
             return False
@@ -48,9 +46,6 @@ class Milk(object):
             return False
         elif type(fat_content) != float:
             print("'fat_content' must be float type!")
-            return False
-        elif type(price) != int:
-            print("'price' must be integer type!")
             return False
         return True
 
