@@ -5,11 +5,18 @@ __author__ = 'Slezak Attila'
 
 class Milk(object):
 
-    def __init__(self, cubic_capacity, producer, best_before, fat_content, price):
+    LITER = 1000
+    HALF_LITER = 500
+    GLASS = 200
+    WHOLE_MILK = 2.8
+    LOW_FAT_MILK = 1.5
 
-        if not Milk.check_data_can_represent_real_milk(cubic_capacity, producer, best_before, fat_content, price):
+    def __init__(self, barcode, cubic_capacity, producer, best_before, fat_content, price):
+
+        if not Milk.check_data_can_represent_real_milk(barcode, cubic_capacity, producer, best_before, fat_content, price):
             raise ValueError("Given data cannot represent real Milk!")
 
+        self.barcode = barcode
         self.cubic_capacity = cubic_capacity
         self.producer = producer
         self.best_before = best_before
@@ -18,27 +25,31 @@ class Milk(object):
 
     def __str__(self):
         return "Milk{" + \
-                "cubicCapacity: " + str(self.cubic_capacity) + " ml" + \
+                "barcode: " + str(self.barcode) + \
+                ", cubic capacity: " + str(self.cubic_capacity) + " ml" + \
                 ", producer: '" + self.producer + "'" + \
-                ", bestBefore: " + str(self.best_before) + \
-                ", fatContent: " + str(self.fat_content) + \
+                ", best before: " + str(self.best_before) + \
+                ", fat content: " + str(self.fat_content) + \
                 ", price: " + str(self.price) + " forint(s)" + '}'
 
     @staticmethod
-    def check_data_can_represent_real_milk(cubic_capacity, producer, best_before, fat_content, price):
-        if type(cubic_capacity) != int:
+    def check_data_can_represent_real_milk(barcode, cubic_capacity, producer, best_before, fat_content, price):
+        if type(barcode) != int:
+            print("'barcode' must be integer type!")
+            return False
+        elif type(cubic_capacity) != int:
             print("'cubic_capacity' must be integer type!")
             return False
-        if type(producer) != str:
+        elif type(producer) != str:
             print("'producer' must be string type!")
             return False
-        if type(best_before) != datetime:
+        elif type(best_before) != datetime:
             print("'best_before' must be datetime type!")
             return False
-        if type(fat_content) != float:
+        elif type(fat_content) != float:
             print("'fat_content' must be float type!")
             return False
-        if type(price) != int:
+        elif type(price) != int:
             print("'price' must be integer type!")
             return False
         return True
