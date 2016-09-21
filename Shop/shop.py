@@ -5,7 +5,10 @@ __author__ = 'Slezak Attila'
 
 class Shop(object):
 
-    def __init__(self, name, address, owner, milk_counter={}):
+    def __init__(self, name, address, owner, milk_counter=None):
+        if milk_counter is None:
+            milk_counter = {}
+
         if not Shop.check_data_can_represent_real_shop(name, address, owner, milk_counter):
             raise ValueError("Given data cannot represent a real Shop!")
 
@@ -37,7 +40,7 @@ class Shop(object):
         if type(milk) != Milk:
             return False
 
-        shop_reg = self.milk_counter[milk.barcode]
+        shop_reg = self.milk_counter.get(milk.barcode)
         if shop_reg is None:
             shop_reg = Shop.ShopRegister(milk, 1, 100)
             self.milk_counter[milk.barcode] = shop_reg

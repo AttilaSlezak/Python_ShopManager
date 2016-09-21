@@ -24,7 +24,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_str_method(self):
         self.assertEqual("Milk{barcode: 101, cubic capacity: 1000 ml, producer: 'Plain Milk inc.', best before: " +
-            str(MyTestCase.test_date) + ", fat content: 2.8}", self.test_milk.__str__())
+                         str(MyTestCase.test_date) + ", fat content: 2.8}", self.test_milk.__str__())
 
 if __name__ == '__main__':
     unittest.main()
