@@ -1,6 +1,6 @@
 # -- coding: utf-8 --
 __author__ = 'Slezak Attila'
-
+from Shop import milk
 
 class Shop(object):
 
@@ -15,7 +15,7 @@ class Shop(object):
         self.flag = milk_counter.length - 1
 
     @staticmethod
-    def check_data_can_represent_real_shop(name, address, owner, milk_counter):
+    def check_data_can_represent_real_shop(name, address, owner, milk_counter=[]):
         if type(name) != str:
             print("'name' must be string type!")
             return False
@@ -33,6 +33,12 @@ class Shop(object):
     def is_there_any_milk(self):
         return self.flag >= 0
 
-    def buy_milk(self):
+    def replenish_milk_counter(self, milk):
+        if type(milk) != Shop.Milk: return False
+
+        self.flag += 1
+        self.milk_counter[self.flag] = milk
+
+    def buy_milk(self, milk):
         self.flag -= 1
         return self.milk_counter[self.flag + 1]
