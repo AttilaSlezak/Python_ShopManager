@@ -19,7 +19,7 @@ class Milk(object):
     def __str__(self):
         return "Milk{" + \
                 "cubicCapacity: " + str(self.cubic_capacity) + " ml" + \
-                ", producer: '" + self.producer + \
+                ", producer: '" + self.producer + "'" + \
                 ", bestBefore: " + str(self.best_before) + \
                 ", fatContent: " + str(self.fat_content) + \
                 ", price: " + str(self.price) + " forint(s)" + '}'
