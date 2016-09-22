@@ -16,19 +16,34 @@ class Milk(object):
         if not Milk.check_data_can_represent_real_milk(barcode, cubic_capacity, producer, best_before, fat_content):
             raise ValueError("Given data cannot represent real Milk!")
 
-        self.barcode = barcode
-        self.cubic_capacity = cubic_capacity
-        self.producer = producer
-        self.best_before = best_before
-        self.fat_content = fat_content
+        self.__barcode = barcode
+        self.__cubic_capacity = cubic_capacity
+        self.__producer = producer
+        self.__best_before = best_before
+        self.__fat_content = fat_content
+
+    def barcode(self):
+        return self.__barcode
+
+    def cubic_capacity(self):
+        return self.__cubic_capacity
+
+    def producer(self):
+        return self.__producer
+
+    def best_before(self):
+        return self.__best_before
+
+    def fat_content(self):
+        return self.__fat_content
 
     def __str__(self):
         return "Milk{" + \
-                "barcode: " + str(self.barcode) + \
-                ", cubic capacity: " + str(self.cubic_capacity) + " ml" + \
-                ", producer: '" + self.producer + "'" + \
-                ", best before: " + str(self.best_before) + \
-                ", fat content: " + str(self.fat_content) + '}'
+                "barcode: " + str(self.__barcode) + \
+                ", cubic capacity: " + str(self.__cubic_capacity) + " ml" + \
+                ", producer: '" + self.__producer + "'" + \
+                ", best before: " + str(self.__best_before) + \
+                ", fat content: " + str(self.__fat_content) + '}'
 
     @staticmethod
     def check_data_can_represent_real_milk(barcode, cubic_capacity, producer, best_before, fat_content):
@@ -50,4 +65,4 @@ class Milk(object):
         return True
 
     def check_still_under_guarantee(self):
-        return True if self.best_before > datetime.now() else False
+        return True if self.__best_before > datetime.now() else False
