@@ -42,7 +42,7 @@ class Shop(object):
 
         shop_reg = self.milk_counter.get(milk.barcode)
         if shop_reg is None:
-            shop_reg = Shop.ShopRegister(milk, 1, 100)
+            shop_reg = Shop.__ShopRegister(milk, 1, 100)
             self.milk_counter[milk.barcode] = shop_reg
         else:
             shop_reg.add_quantity(1)
@@ -54,7 +54,7 @@ class Shop(object):
             return shop_reg.milk
         return None
 
-    class ShopRegister(object):
+    class __ShopRegister(object):
 
         def __init__(self, milk, quantity, price):
             self.milk = milk
