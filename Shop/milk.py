@@ -1,9 +1,11 @@
+from abc import ABCMeta, abstractmethod
 from datetime import datetime
 # -- coding: utf-8 --
 __author__ = 'Slezak Attila'
 
 
 class Milk(object):
+    __metaclass__ = ABCMeta
 
     LITER = 1000
     HALF_LITER = 500
