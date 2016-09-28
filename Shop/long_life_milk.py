@@ -1,4 +1,5 @@
 from Shop.milk import Milk
+# -- coding: utf-8 --
 __author__ = 'Slezak Attila'
 
 
