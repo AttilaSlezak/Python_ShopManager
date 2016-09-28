@@ -1,10 +1,10 @@
 from abc import ABCMeta, abstractmethod
-from datetime import datetime
+from Shop.food import Food
 # -- coding: utf-8 --
 __author__ = 'Slezak Attila'
 
 
-class Milk(object):
+class Milk(Food):
     __metaclass__ = ABCMeta
 
     LITER = 1000
@@ -15,26 +15,16 @@ class Milk(object):
 
     def __init__(self, barcode, cubic_capacity, producer, best_before, fat_content):
 
-        if not Milk.check_data_can_represent_real_milk(barcode, cubic_capacity, producer, best_before, fat_content):
+        if not Milk.check_data_can_represent_real_milk(cubic_capacity, fat_content):
             raise ValueError("Given data cannot represent real Milk!")
 
-        self.__barcode = barcode
-        self.__cubic_capacity = cubic_capacity
-        self.__producer = producer
-        self.__best_before = best_before
-        self.__fat_content = fat_content
+        Food.__init__(self, barcode, producer, best_before)
 
-    def barcode(self):
-        return self.__barcode
+        self.__cubic_capacity = cubic_capacity
+        self.__fat_content = fat_content
 
     def cubic_capacity(self):
         return self.__cubic_capacity
-
-    def producer(self):
-        return self.__producer
-
-    def best_before(self):
-        return self.__best_before
 
     def fat_content(self):
         return self.__fat_content
@@ -48,23 +38,11 @@ class Milk(object):
                 ", fat content: " + str(self.__fat_content) + '}'
 
     @staticmethod
-    def check_data_can_represent_real_milk(barcode, cubic_capacity, producer, best_before, fat_content):
-        if type(barcode) != int:
-            print("'barcode' must be integer type!")
-            return False
-        elif type(cubic_capacity) != int:
+    def check_data_can_represent_real_milk(cubic_capacity, fat_content):
+        if type(cubic_capacity) != int:
             print("'cubic_capacity' must be integer type!")
-            return False
-        elif type(producer) != str:
-            print("'producer' must be string type!")
-            return False
-        elif type(best_before) != datetime:
-            print("'best_before' must be datetime type!")
             return False
         elif type(fat_content) != float:
             print("'fat_content' must be float type!")
             return False
         return True
-
-    def check_still_under_guarantee(self):
-        return True if self.__best_before > datetime.now() else False

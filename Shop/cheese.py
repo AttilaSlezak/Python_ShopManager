@@ -1,31 +1,24 @@
+from abc import ABCMeta
 from datetime import datetime
+from Shop.food import Food
 # -- coding: utf-8 --
 __author__ = 'Slezak Attila'
 
 
-class Cheese(object):
+class Cheese(Food):
+    __metaclass__ = ABCMeta
 
     def __init__(self, barcode, weight, producer, best_before, fat_content):
-        if not Cheese.check_data_can_represent_real_cheese(barcode, weight, producer, best_before, fat_content):
+        if not Cheese.check_data_can_represent_real_cheese(weight, fat_content):
             raise ValueError("Given data cannot represent real Cheese!")
 
-        self.__barcode = barcode
-        self.__weight = weight
-        self.__producer = producer
-        self.__best_before = best_before
-        self.__fat_content = fat_content
+        Food.__init__(self, barcode, producer, best_before)
 
-    def barcode(self):
-        return self.__barcode
+        self.__weight = weight
+        self.__fat_content = fat_content
 
     def weight(self):
         return self.__weight
-
-    def producer(self):
-        return self.__producer
-
-    def best_before(self):
-        return self.__best_before
 
     def fat_content(self):
         return self.__fat_content
@@ -39,23 +32,11 @@ class Cheese(object):
                 ", fat content: " + str(self.__fat_content) + '}'
 
     @staticmethod
-    def check_data_can_represent_real_cheese(barcode, weight, producer, best_before, fat_content):
-        if type(barcode) != int:
-            print("'barcode' must be integer type!")
-            return False
-        elif type(weight) != float:
+    def check_data_can_represent_real_cheese(weight, fat_content):
+        if type(weight) != float:
             print("'cubic_capacity' must be float type!")
-            return False
-        elif type(producer) != str:
-            print("'producer' must be string type!")
-            return False
-        elif type(best_before) != datetime:
-            print("'best_before' must be datetime type!")
             return False
         elif type(fat_content) != float:
             print("'fat_content' must be float type!")
             return False
         return True
-
-    def check_still_under_guarantee(self):
-        return True if self.__best_before > datetime.now() else False
