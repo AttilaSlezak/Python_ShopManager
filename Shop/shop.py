@@ -1,4 +1,6 @@
 from Shop.milk import Milk
+from Shop.cheese import Cheese
+from Shop.food import Food
 # -- coding: utf-8 --
 __author__ = 'Slezak Attila'
 
@@ -42,39 +44,69 @@ class Shop(object):
             return False
         return True
 
-    def is_there_any_milk(self):
-        return len(self.__milk_counter) > 0
+    def __is_there_any_certain_food(self, class_type):
+        for one_shop_manager in self.__milk_counter.values():
+            if isinstance(one_shop_manager.food(), class_type) and one_shop_manager.quantity() > 0:
+                return True
+        return False
 
-    def replenish_milk_counter(self, milk):
-        if type(milk) != Milk:
+    def is_there_any_milk(self):
+        return self.__is_there_any_certain_food(Milk)
+
+    def is_there_any_cheese(self):
+        return self.__is_there_any_certain_food(Cheese)
+
+    def replenish_food_counter(self, barcode, quantity):
+        if type(quantity) != int:
             return False
 
-        shop_reg = self.__milk_counter.get(milk.barcode())
+        shop_reg = self.__milk_counter.get(barcode)
         if shop_reg is None:
-            shop_reg = Shop.__ShopRegister(milk, 1, 100)
-            self.__milk_counter[milk.barcode()] = shop_reg
+            return False
         else:
-            shop_reg.add_quantity(1)
+            shop_reg.add_quantity(quantity)
 
-    def buy_milk(self, barcode):
+    def add_new_food_to_food_counter(self, food, quantity, price):
+        shop_reg = self.__ShopRegister(food, quantity, price)
+        self.__milk_counter[food.barcode()] = shop_reg
+
+    def remove_food_from_food_counter(self, barcode):
+        self.__milk_counter.pop(barcode, None)
+
+    def buy_milk(self, barcode, quantity):
         shop_reg = self.__milk_counter[barcode]
         if shop_reg is not None:
-            shop_reg.subtract_quantity(1)
-            return shop_reg.milk
-        return None
+            shop_reg.subtract_quantity(quantity)
 
     class __ShopRegister(object):
 
-        def __init__(self, milk, quantity, price):
-            self.__milk = milk
+        def __init__(self, food, quantity, price):
+
+            if not self.check_data_can_represent_real_shop_register(food, quantity, price):
+                raise ValueError("Given data cannot represent a real ShopRegister!")
+
+            self.__food = food
             self.__quantity = quantity
             self.__price = price
 
-        def milk(self, milk=None):
-            if milk is None:
-                return self.__milk
-            elif type(milk) == Milk:
-                self.__milk = milk
+        @staticmethod
+        def check_data_can_represent_real_shop_register(food, quantity, price):
+            if type(food) != Food:
+                print("'cubic_capacity' must be Food type!")
+                return False
+            elif type(quantity) != int:
+                print("'fat_content' must be integer type!")
+                return False
+            elif type(price) != int:
+                print("'fat_content' must be integer type!")
+                return False
+            return True
+
+        def food(self, food=None):
+            if food is None:
+                return self.__food
+            elif type(food) == Food:
+                self.__food = food
             else:
                 return False
 
